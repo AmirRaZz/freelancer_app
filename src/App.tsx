@@ -1,5 +1,14 @@
+import { Route, Routes } from "react-router";
+import Auth from "./pages/Auth";
+
 function App() {
-  return <div className="text-4xl container bg-primary-500 font-bold">شروع پروژه</div>;
+  return (
+    <div className="container">
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
