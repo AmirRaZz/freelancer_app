@@ -18,6 +18,7 @@ export default defineConfig({
       "@features": "/src/features",
       "@styles": "/src/styles",
       "@ui": "/src/ui",
+      "@services": "/src/services",
     },
   },
 });
