@@ -1,15 +1,40 @@
+import { completeProfile } from "@/services/authService";
+import Loading from "@/ui/Loading";
 import RadioInput from "@/ui/RadioInput";
 import TextField from "@/ui/TextField";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 function CompleteProfileForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: completeProfile,
+  });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    try {
+      const { user, message } = await mutateAsync({ name, email, role });
+      toast.success(message);
+      if (user.status !== 2) {
+        navigate("/");
+        toast("پروفایل شما در انتظار تایید می باشد", {
+          icon: "ℹ️",
+        });
+        return;
+      }
+      if (user.role === "OWNER") navigate("/owner");
+      if (user.role === "FREELANCER") navigate("/freelancer");
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.response?.data?.message || "An error occurred");
+    }
   };
 
   return (
@@ -46,7 +71,13 @@ function CompleteProfileForm() {
               checked={role === "FREELANCER"}
             />
           </div>
-          <button className="btn btn--primary w-full">تایید</button>
+          <div>
+            {isPending ? (
+              <Loading />
+            ) : (
+              <button className="btn btn--primary w-full">تایید</button>
+            )}
+          </div>
         </form>
       </div>
     </div>

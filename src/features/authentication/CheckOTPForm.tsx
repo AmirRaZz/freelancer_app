@@ -34,14 +34,15 @@ function CheckOTPForm({
     try {
       const { message, user } = await mutateAsync({ phoneNumber, otp });
       toast.success(message);
-      if (user.isActive) {
-        if (user.role === "OWNER") navigate("/owner");
-        if (user.role === "FREELANCER") navigate("/freelancer");
-      } else {
-        navigate("/complete-profile");
+      if (!user.isActive) navigate("/complete-profile");
+      if (user.status !== 2) {
+        navigate("/");
+        toast.error("پروفایل شما در انتظار تایید می باشد");
+        return;
       }
+      if (user.role === "OWNER") navigate("/owner");
+      if (user.role === "FREELANCER") navigate("/freelancer");
     } catch (error) {
-      console.log(error);
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred");
     }
