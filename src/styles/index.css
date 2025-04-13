@@ -197,3 +197,96 @@ table td {
   padding: 1rem 1rem;
   color: var(--color-secondary-600);
 }
+
+/* Custom styles for checkboxes and radio buttons - Tailwind v4 compatible */
+
+/* Common styles for both checkbox and radio */
+input[type="checkbox"],
+input[type="radio"] {
+  @apply relative bg-secondary-100 border border-secondary-300 cursor-pointer;
+  @apply transition-all duration-200 ease-in-out;
+  @apply appearance-none;
+}
+
+/* Checkbox specific styles */
+input[type="checkbox"] {
+  @apply rounded-md;
+
+  &::after {
+    content: "";
+    @apply block w-full h-full z-10
+      scale-0 opacity-0 transition-all duration-200 ease-in-out
+      absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+      bg-current pointer-events-none;
+
+    mask-size: 75%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+
+  &:checked {
+    @apply bg-primary-500 border-primary-500;
+  }
+
+  &:checked::after {
+    @apply opacity-100 scale-100 text-white;
+  }
+
+  &:focus {
+    @apply ring-2 ring-offset-2 ring-primary-500/50;
+  }
+}
+
+/* Radio button specific styles */
+input[type="radio"] {
+  @apply rounded-full;
+
+  &::after {
+    content: "";
+    @apply block rounded-full w-[60%] h-[60%] z-10
+      scale-0 opacity-0 transition-all duration-200 ease-in-out
+      absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+      bg-white pointer-events-none;
+  }
+
+  &:checked {
+    @apply bg-primary-500 border-primary-500;
+  }
+
+  &:checked::after {
+    @apply opacity-100 scale-100;
+  }
+
+  &:focus {
+    @apply ring-2 ring-offset-2 ring-primary-500/50;
+  }
+}
+
+/* Hover states */
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+  @apply border-primary-400;
+}
+
+/* Disabled states */
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Sizing classes */
+.checkbox-sm,
+.radio-sm {
+  @apply w-4 h-4;
+}
+
+.checkbox-md,
+.radio-md {
+  @apply w-5 h-5;
+}
+
+.checkbox-lg,
+.radio-lg {
+  @apply w-6 h-6;
+}
