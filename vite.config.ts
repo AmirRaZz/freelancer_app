@@ -17,6 +17,7 @@ export default defineConfig({
       "@pages": "/src/pages",
       "@features": "/src/features",
       "@styles": "/src/styles",
+      "@ui": "/src/ui",
     },
   },
 });
