@@ -3,8 +3,18 @@ import truncateText from "@utils/truncateText";
 import toLocalDateShort from "@utils/toLocalDateShort";
 import { toPersianNumbersWithComma } from "@utils/toPersianNumbers";
 import { Project } from "./ProjectTable";
+import { HiOutlineTrash } from "react-icons/hi2";
+import { TbPencilMinus } from "react-icons/tb";
+import Modal from "@/ui/Modal";
+import { useState } from "react";
+import ConfirmDelete from "@ui/ConfirmDelete";
+import useRemoveProject from "./useRemoveProject";
 
 function ProjectRow({ index, project }: { index: number; project: Project }) {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const { isDeleting, removeProject } = useRemoveProject();
+
   return (
     <Table.Row>
       <td>{index + 1}</td>
@@ -29,7 +39,46 @@ function ProjectRow({ index, project }: { index: number; project: Project }) {
           <span className="badge badge--danger">بسته</span>
         )}
       </td>
-      <td>...</td>
+      <td>
+        <div className="flex items-center gap-x-4">
+          <>
+            <button onClick={() => setIsEditOpen(true)}>
+              <TbPencilMinus className="w-5 h-5 text-primary-900" />
+            </button>
+            <Modal
+              open={isEditOpen}
+              onClose={() => setIsEditOpen(false)}
+              title={`ویرایش ${project.title}`}
+            >
+              <div>
+                <h2>ویرایش پروژه</h2>
+                <p>آیا از ویرایش پروژه مطمئن هستید؟</p>
+              </div>
+            </Modal>
+          </>
+          <>
+            <button onClick={() => setIsDeleteOpen(true)}>
+              <HiOutlineTrash className="w-5 h-5 text-error" />
+            </button>
+            <Modal
+              open={isDeleteOpen}
+              onClose={() => setIsDeleteOpen(false)}
+              title={`حذف ${project.title}`}
+            >
+              <ConfirmDelete
+                resourceName={project.title}
+                onClose={() => setIsDeleteOpen(false)}
+                onConfirm={() =>
+                  removeProject(project._id, {
+                    onSuccess: () => setIsDeleteOpen(false),
+                  })
+                }
+                disabled={isDeleting}
+              />
+            </Modal>
+          </>
+        </div>
+      </td>
     </Table.Row>
   );
 }
