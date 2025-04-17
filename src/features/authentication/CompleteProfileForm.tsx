@@ -1,26 +1,41 @@
 import { completeProfile } from "@/services/authService";
 import Loading from "@/ui/Loading";
-import RadioInput from "@/ui/RadioInput";
-import TextField from "@/ui/TextField";
+import RadioInputGroup from "@/ui/RadioInputGroup";
+// import RadioInput from "@/ui/RadioInput";
+// import RHFRadioInput from "@/ui/RHFRadioInput";
+import RHFTextField from "@/ui/RHFTextField";
+// import TextField from "@/ui/TextField";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useState } from "react";
+// import { useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
+type ProfileFormValues = {
+  name: string;
+  email: string;
+  role: string;
+};
+
 function CompleteProfileForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [role, setRole] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ProfileFormValues>();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: completeProfile,
   });
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: ProfileFormValues) => {
     try {
-      const { user, message } = await mutateAsync({ name, email, role });
+      const { user, message } = await mutateAsync(data);
       toast.success(message);
       if (user.status !== 2) {
         navigate("/");
@@ -40,37 +55,39 @@ function CompleteProfileForm() {
   return (
     <div className="flex justify-center pt-10">
       <div className="w-full sm:max-w-sm">
-        <form className="space-y-8" onSubmit={handleSubmit}>
-          <TextField
+        <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+          <RHFTextField
             label="نام و نام خانوادگی"
             name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            register={register}
+            validationSchema={{ required: "این فیلد الزامی است" }}
           />
-          <TextField
+          <RHFTextField
             label="ایمیل"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            register={register}
+            validationSchema={{
+              required: "این فیلد الزامی است",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "ایمیل معتبر نیست",
+              },
+            }}
           />
-          <div className="flex items-center justify-center gap-x-8">
-            <RadioInput
-              label="کارفرما"
-              name="role"
-              id="OWNER"
-              value="OWNER"
-              onChange={(e) => setRole(e.target.value)}
-              checked={role === "OWNER"}
-            />
-            <RadioInput
-              label="فریلنسر"
-              name="role"
-              id="FREELANCER"
-              value="FREELANCER"
-              onChange={(e) => setRole(e.target.value)}
-              checked={role === "FREELANCER"}
-            />
-          </div>
+          <RadioInputGroup
+            errors={errors}
+            register={register}
+            watch={watch}
+            configs={{
+              name: "role",
+              validationSchema: { required: "انتخاب نقش الزامی است" },
+              options: [
+                { label: "کارفرما", value: "OWNER" },
+                { label: "فریلنسر", value: "FREELANCER" },
+              ],
+            }}
+          />
+
           <div>
             {isPending ? (
               <Loading />

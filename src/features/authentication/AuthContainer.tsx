@@ -5,10 +5,16 @@ import { getOtp } from "@/services/authService";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type AuthFormData = {
+  phoneNumber: string;
+};
 
 function AuthContainer() {
   const [step, setStep] = useState(2);
-  const [phoneNumber, setPhoneNumber] = useState("09181111111");
+  // const [phoneNumber, setPhoneNumber] = useState("09181111111");
+  const { register, handleSubmit, getValues } = useForm<AuthFormData>();
 
   const {
     isPending: isSendingOtp,
@@ -18,14 +24,11 @@ function AuthContainer() {
     mutationFn: getOtp,
   });
 
-  const sendOtpHandler = async (
-    e?: React.FormEvent<HTMLFormElement> | React.MouseEvent
-  ) => {
-    if (e && "preventDefault" in e) e.preventDefault();
+  const sendOtpHandler: SubmitHandler<AuthFormData> = async (data) => {
     try {
-      const data = await sendOtp({ phoneNumber });
-      if (e && "preventDefault" in e) setStep(2); // Only update step if it's a form submission
-      toast.success(data.message);
+      const { message } = await sendOtp(data);
+      setStep(2);
+      toast.success(message);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred");
@@ -36,17 +39,19 @@ function AuthContainer() {
     <div className="w-full sm:max-w-sm">
       {step === 1 && (
         <SendOTPForm
-          onSubmit={sendOtpHandler}
+          onSubmit={handleSubmit(sendOtpHandler)}
           isSendingOtp={isSendingOtp}
-          phoneNumber={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          register={register}
+          // onSubmit={sendOtpHandler}
+          // phoneNumber={phoneNumber}
+          // onChange={(e) => setPhoneNumber(e.target.value)}
         />
       )}
       {step === 2 && (
         <CheckOTPForm
-          phoneNumber={phoneNumber}
+          phoneNumber={getValues("phoneNumber")}
           onBack={() => setStep((s) => s - 1)}
-          onResendOtp={() => sendOtpHandler()}
+          onResendOtp={sendOtpHandler as () => Promise<void>}
           otpResponse={otpResponse}
         />
       )}
