@@ -1,3 +1,4 @@
+import useCategories from "@/hooks/useCategories";
 import DatePickerField from "@/ui/DatePickerField";
 import RHFSelect from "@/ui/RHFSelect";
 import RHFTextField from "@/ui/RHFTextField";
@@ -21,6 +22,7 @@ function CreateProjectForm() {
 
   const [tags, setTags] = useState<string[]>([]);
   const [date, setDate] = useState(new Date());
+  const { categories}=useCategories()
 
   const onSubmit = (data: ProjectFormData) => {
     console.log(data);
@@ -71,7 +73,7 @@ function CreateProjectForm() {
         label="دسته بندی"
         name="category"
         register={register}
-        options={[]}
+        options={categories}
         required
       />
       <div>
