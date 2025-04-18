@@ -47,3 +47,8 @@ export const toggleProjectStatusApi = ({
 }) => {
   return http.patch(`/project/${id}`, data).then(({ data }) => data.data);
 };
+
+export const getProjectApi = (id: string) => {
+  return http.get(`/project/${id}`).then(({ data }) => data.data);
+};
+

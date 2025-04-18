@@ -1,5 +1,5 @@
 import { ProjectType } from "./ProjectTable";
-import { useToggleProjectStatus } from "./useToggleProjectStatus";
+import useToggleProjectStatus from "./useToggleProjectStatus";
 import Loading from "@/ui/Loading";
 import Toggle from "@/ui/Toggle";
 

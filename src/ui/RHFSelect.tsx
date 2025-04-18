@@ -9,7 +9,7 @@ function RHFSelect<T extends FieldValues>({
 }: {
   name: Path<T>;
   register: UseFormRegister<T>;
-  options: { label: string; value: string }[];
+  options: { label: string; value: number }[];
   required?: boolean;
   label: string;
 }) {
