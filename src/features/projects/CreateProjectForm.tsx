@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { TagsInput } from "react-tag-input-component";
 import useCreateProject from "./useCreateProject";
 import Loading from "@/ui/Loading";
+import { ProjectType } from "./ProjectTable";
+import useEditProject from "./useEditProject";
 
 type ProjectFormData = {
   title: string;
@@ -15,18 +17,45 @@ type ProjectFormData = {
   category: string;
 };
 
-function CreateProjectForm({ onClose }: { onClose: () => void }) {
+function CreateProjectForm({
+  onClose,
+  projectToEdit = {} as ProjectType,
+}: {
+  onClose: () => void;
+  projectToEdit?: ProjectType;
+}) {
+  const { _id: editId } = projectToEdit;
+  const isEditSession = Boolean(editId);
+  const {
+    title,
+    description,
+    budget,
+    deadline,
+    category,
+    tags: prevTags,
+  } = projectToEdit;
+  let editValues = {};
+  if (isEditSession) {
+    editValues = {
+      title,
+      description,
+      budget,
+      category: category._id,
+    };
+  }
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ProjectFormData>();
+  } = useForm<ProjectFormData>({ defaultValues: editValues });
 
-  const [tags, setTags] = useState<string[]>([]);
-  const [date, setDate] = useState(new Date());
+  const [tags, setTags] = useState<string[]>(prevTags || []);
+  const [date, setDate] = useState(new Date(deadline || ""));
   const { categories } = useCategories();
   const { isCreating, createProject } = useCreateProject();
+  const { editProject } = useEditProject();
 
   const onSubmit = (data: ProjectFormData) => {
     const newProject = {
@@ -34,12 +63,24 @@ function CreateProjectForm({ onClose }: { onClose: () => void }) {
       tags,
       deadline: new Date(date).toISOString(),
     };
-    createProject(newProject, {
-      onSuccess: () => {
-        onClose();
-        reset();
-      },
-    });
+    if (isEditSession) {
+      editProject(
+        { id: editId, newProject },
+        {
+          onSuccess: () => {
+            onClose();
+            reset();
+          },
+        }
+      );
+    } else {
+      createProject(newProject, {
+        onSuccess: () => {
+          onClose();
+          reset();
+        },
+      });
+    }
   };
 
   return (

@@ -2,15 +2,16 @@ import Table from "@/ui/Table";
 import truncateText from "@utils/truncateText";
 import toLocalDateShort from "@utils/toLocalDateShort";
 import { toPersianNumbersWithComma } from "@utils/toPersianNumbers";
-import { Project } from "./ProjectTable";
+import { ProjectType } from "./ProjectTable";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { TbPencilMinus } from "react-icons/tb";
 import Modal from "@/ui/Modal";
 import { useState } from "react";
 import ConfirmDelete from "@ui/ConfirmDelete";
 import useRemoveProject from "./useRemoveProject";
+import CreateProjectForm from "./CreateProjectForm";
 
-function ProjectRow({ index, project }: { index: number; project: Project }) {
+function ProjectRow({ index, project }: { index: number; project: ProjectType }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { isDeleting, removeProject } = useRemoveProject();
@@ -50,10 +51,10 @@ function ProjectRow({ index, project }: { index: number; project: Project }) {
               onClose={() => setIsEditOpen(false)}
               title={`ویرایش ${project.title}`}
             >
-              <div>
-                <h2>ویرایش پروژه</h2>
-                <p>آیا از ویرایش پروژه مطمئن هستید؟</p>
-              </div>
+              <CreateProjectForm
+                projectToEdit={project}
+                onClose={() => setIsEditOpen(false)}
+              />
             </Modal>
           </>
           <>

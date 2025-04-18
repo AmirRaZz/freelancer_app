@@ -4,10 +4,12 @@ import Empty from "@ui/Empty";
 import Table from "@/ui/Table";
 import ProjectRow from "./ProjectRow";
 
-export type Project = {
+export type ProjectType = {
   _id: string;
   title: string;
+  description: string;
   category: {
+    _id: string;
     title: string;
   };
   budget: number;
@@ -39,7 +41,7 @@ function ProjectTable() {
         <th>عملیات</th>
       </Table.Header>
       <Table.Body>
-        {projects.map((project: Project, index: number) => (
+        {projects.map((project: ProjectType, index: number) => (
           <ProjectRow key={project._id} project={project} index={index} />
         ))}
       </Table.Body>

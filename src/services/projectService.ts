@@ -18,3 +18,22 @@ export const createProjectApi = (data: {
 }) => {
   return http.post(`/project/add`, data).then(({ data }) => data.data);
 };
+
+export const editProjectApi = ({
+  id,
+  newProject,
+}: {
+  id: string;
+  newProject: {
+    title: string;
+    description: string;
+    budget: number;
+    category: string;
+    tags: string[];
+    deadline: string;
+  };
+}) => {
+  return http
+    .patch(`/project/update/${id}`, newProject)
+    .then(({ data }) => data.data);
+};
