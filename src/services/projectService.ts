@@ -37,3 +37,13 @@ export const editProjectApi = ({
     .patch(`/project/update/${id}`, newProject)
     .then(({ data }) => data.data);
 };
+
+export const toggleProjectStatusApi = ({
+  id,
+  data,
+}: {
+  id: string;
+  data: { status: string };
+}) => {
+  return http.patch(`/project/${id}`, data).then(({ data }) => data.data);
+};
