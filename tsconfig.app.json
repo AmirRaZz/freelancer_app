@@ -33,7 +33,8 @@
       "@features/*": ["src/features/*"],
       "@styles/*": ["src/styles/*"],
       "@ui/*": ["src/ui/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@context/*": ["src/context/*"]
     }
   },
   "include": ["src"]

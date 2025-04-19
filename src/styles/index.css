@@ -33,7 +33,22 @@
   --color-backdrop: oklch(0 0 0);
 }
 
-.dark {
+.dark-mode {
+  /* Inverted primary colors for dark mode */
+  --color-primary-900: oklch(0.82 0.08 258.33); /* Using primary-100 */
+  --color-primary-800: oklch(0.78 0.1 259.22); /* Using primary-200 */
+  --color-primary-700: oklch(0.74 0.12 260.08); /* Using primary-300 */
+  --color-primary-600: oklch(0.71 0.13 260.9); /* Using primary-400 */
+  --color-primary-500: oklch(
+    0.68 0.14 261.69
+  ); /* primary-500 remains the same */
+  --color-primary-400: oklch(0.65 0.15 262.46); /* Using primary-600 */
+  --color-primary-300: oklch(0.62 0.16 263.2); /* Using primary-700 */
+  --color-primary-200: oklch(0.59 0.17 263.92); /* Using primary-800 */
+  --color-primary-100: oklch(0.56 0.18 264.62); /* Using primary-900 */
+  --color-primary-50: oklch(0.52 0.19 265); /* Darker than primary-900 */
+
+  /* Secondary colors (already defined) */
   --color-secondary-900: oklch(0.98 0.003 264.64);
   --color-secondary-800: oklch(0.95 0.003 264.54);
   --color-secondary-700: oklch(0.9 0.003 258.94);
@@ -46,6 +61,12 @@
   --color-secondary-50: oklch(0.17 0.003 262.33);
   --color-secondary-0: oklch(0.2 0.02 265.71);
 
+  /* Adjusted utility colors for dark mode - slightly brighter for better visibility */
+  --color-success: oklch(0.74 0.18 145.48); /* Brighter version of success */
+  --color-warning: oklch(0.81 0.19 79.87); /* Brighter version of warning */
+  --color-error: oklch(0.7 0.28 21.2); /* Brighter version of error */
+
+  /* Background colors (already defined) */
   --color-background: oklch(0.2 0.02 265.71);
   --color-backdrop: oklch(0 0 0);
 }

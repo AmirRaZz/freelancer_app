@@ -19,6 +19,7 @@ export default defineConfig({
       "@styles": "/src/styles",
       "@ui": "/src/ui",
       "@services": "/src/services",
+      "@context": "/src/context",
     },
   },
 });
