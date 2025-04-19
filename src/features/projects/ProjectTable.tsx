@@ -19,6 +19,12 @@ export type ProjectType = {
     name: string;
   };
   status: string;
+  proposals: {
+    _id: string;
+    freelancer: {
+      name: string;
+    };
+  }[];
 };
 
 function ProjectTable() {
