@@ -11,3 +11,7 @@ export const changeProposalStatusApi = ({
     .patch(`/proposal/${proposalId}`, { status })
     .then(({ data }) => data.data);
 };
+
+export const getProposalsApi = () => {
+  return http.get(`/proposal/list`).then(({ data }) => data.data);
+}

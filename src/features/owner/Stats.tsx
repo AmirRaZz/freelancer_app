@@ -4,11 +4,11 @@ import {
   HiOutlineViewGrid,
 } from "react-icons/hi";
 import { ProjectType } from "../projects/ProjectTable";
-import Stat from "./Stat";
+import Stat from "@ui/Stat";
 
 function Stats({ projects }: { projects: ProjectType[] }) {
   const numOfProjects = projects.length;
-  const numOfAcceptedProjects = projects.map(
+  const numOfAcceptedProjects = projects.filter(
     (project) => Number(project.status) === 2
   ).length;
   const numOfProposals = projects.reduce(

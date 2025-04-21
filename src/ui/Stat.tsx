@@ -1,3 +1,5 @@
+import { toPersianNumbers } from "@/utils/toPersianNumbers";
+
 const colors: { [key: string]: string } = {
   primary: "bg-primary-100 text-primary-700",
   green: "bg-green-100 text-green-700",
@@ -12,7 +14,7 @@ function Stat({
 }: {
   icon: React.ReactNode;
   title: string;
-  value: number;
+  value: number | string;
   color: string;
 }) {
   return (
@@ -25,7 +27,9 @@ function Stat({
       <h5 className="text-secondary-500 font-bold text-lg self-center">
         {title}
       </h5>
-      <p className="text-3xl font-bold text-secondary-900">{value}</p>
+      <p className="text-3xl font-bold text-secondary-900">
+        {toPersianNumbers(value)}
+      </p>
     </div>
   );
 }
