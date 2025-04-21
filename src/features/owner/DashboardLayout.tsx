@@ -1,6 +1,6 @@
 import Loading from "@/ui/Loading";
 import useOwnerProjects from "../projects/useOwnerProjects";
-import DashboardHeader from "./DashboardHeader";
+import DashboardHeader from "../../ui/DashboardHeader";
 import Stats from "./Stats";
 
 function DashboardLayout() {
