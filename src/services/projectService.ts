@@ -52,6 +52,6 @@ export const getProjectApi = (id: string) => {
   return http.get(`/project/${id}`).then(({ data }) => data.data);
 };
 
-export const getProjectsApi = () => {
-  return http.get(`/project/list`).then(({ data }) => data.data);
+export const getProjectsApi = (qs: string) => {
+  return http.get(`/project/list${qs}`).then(({ data }) => data.data);
 };
