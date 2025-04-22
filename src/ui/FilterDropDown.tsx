@@ -8,14 +8,16 @@ function FilterDropDown({
   filterField: string;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const filterValue = searchParams.get(filterField) ?? "";
+  const filterValue = searchParams.get(filterField) || "";
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     searchParams.set(filterField, e.target.value);
     setSearchParams(searchParams);
   }
 
-  return <Select options={options} value={filterValue} onChange={handleChange} />;
+  return (
+    <Select options={options} value={filterValue} onChange={handleChange} />
+  );
 }
 
 export default FilterDropDown;
