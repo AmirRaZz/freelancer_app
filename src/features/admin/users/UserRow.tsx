@@ -2,6 +2,7 @@ import Table from "@/ui/Table";
 import { UserType } from "./UsersTable";
 import { useState } from "react";
 import Modal from "@/ui/Modal";
+import ChangeUserStatus from "./ChangeUserStatus";
 
 const statusStyle = [
   { label: "رد شده", className: "badge--danger" },
@@ -30,8 +31,9 @@ function UserRow({ user, index }: { user: UserType; index: number }) {
           open={open}
           onClose={() => setOpen(false)}
         >
-          ...
+          <ChangeUserStatus userId={user._id} onClose={() => setOpen(false)} />
         </Modal>
+        <button onClick={() => setOpen(true)}>تغییر وضعیت</button>
       </td>
     </Table.Row>
   );

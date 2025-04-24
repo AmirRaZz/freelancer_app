@@ -5,7 +5,7 @@ import Empty from "@/ui/Empty";
 import UserRow from "./UserRow";
 
 export type UserType = {
-  
+  _id: string;
   name: string;
   email: string;
   phoneNumber: string;

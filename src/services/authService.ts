@@ -29,3 +29,15 @@ export const logoutApi = () => {
 export const getUsersApi = () => {
   return http.get("/admin/users/list").then(({ data }) => data.data);
 };
+
+export const changeUserStatusApi = ({
+  userId,
+  data,
+}: {
+  userId: string;
+  data: { status: number };
+}) => {
+  return http
+    .patch(`/admin/users/verify/${userId}`, data)
+    .then(({ data }) => data.data);
+};
