@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckOTPForm from "./CheckOTPForm";
 import SendOTPForm from "./SendOTPForm";
 import { getOtp } from "@/services/authService";
@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
+import useUser from "./useUser";
+import { useNavigate } from "react-router";
 
 type AuthFormData = {
   phoneNumber: string;
@@ -15,6 +17,12 @@ function AuthContainer() {
   const [step, setStep] = useState(2);
   // const [phoneNumber, setPhoneNumber] = useState("09181111111");
   const { register, handleSubmit, getValues } = useForm<AuthFormData>();
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) navigate("/", { replace: true });
+  }, [user, navigate]);
 
   const {
     isPending: isSendingOtp,
