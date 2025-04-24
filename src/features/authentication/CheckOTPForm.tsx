@@ -42,6 +42,7 @@ function CheckOTPForm({
       }
       if (user.role === "OWNER") navigate("/owner");
       if (user.role === "FREELANCER") navigate("/freelancer");
+      if (user.role === "ADMIN") return navigate("/admin")
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred");

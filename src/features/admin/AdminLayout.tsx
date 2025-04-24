@@ -1,10 +1,10 @@
-import { HiHome, HiCollection } from "react-icons/hi";
-
 import AppLayout from "@/ui/AppLayout";
 import CustomNavLink from "@/ui/CustomNavLink";
 import SideBar from "@/ui/SideBar";
+import { HiCollection, HiOutlineViewGrid } from "react-icons/hi";
+import { HiHome, HiUser } from "react-icons/hi2";
 
-function FreelancerLayout() {
+function AdminLayout() {
   return (
     <AppLayout>
       <SideBar>
@@ -13,8 +13,13 @@ function FreelancerLayout() {
           <span>داشبورد</span>
         </CustomNavLink>
 
+        <CustomNavLink to="users">
+          <HiUser />
+          <span>کاربران</span>
+        </CustomNavLink>
+
         <CustomNavLink to="projects">
-          <HiCollection />
+          <HiOutlineViewGrid />
           <span>پروژه ها</span>
         </CustomNavLink>
 
@@ -27,4 +32,4 @@ function FreelancerLayout() {
   );
 }
 
-export default FreelancerLayout;
+export default AdminLayout;
